@@ -20,6 +20,15 @@ export default {
             selected: {},
         },
     },
+    getAnchorPoints() {
+        //获取节点锚点
+        return [
+            [0.5, 0], //上
+            [1, 0.5], //右
+            [0.5, 1], //下
+            [0, 0.5], //左
+        ];
+    },
     draw(cfg, group) {
         const keyShape = group.addShape('circle', {
             attrs: {
@@ -30,15 +39,16 @@ export default {
                 stroke: this.options.style.stroke,
                 fillOpacity:0.6,
                 lineWidth:2,
+                cursor:'pointer',
                 name:"start_keyShape"
             },
             name: 'start_keyShape',
             draggable: true
         });
-        this.point(group,[0,40]);
-        this.point(group,[0,-40]);
-        this.point(group,[-40,0]);
-        this.point(group,[40,0]);
+        this.point(group,[0,40], 'top');
+        this.point(group,[0,-40], 'bottom');
+        this.point(group,[-40,0], 'left');
+        this.point(group,[40,0], 'right');
         if (cfg.label) {
             // 如果有文本
             // 如果需要复杂的文本配置项，可以通过 labeCfg 传入
@@ -75,10 +85,14 @@ export default {
                             fill: this.options.stateStyles.node_hover.fill,
                             stroke: this.options.stateStyles.node_hover.stroke,
                         })
-                    }else {
+                    }else if(i%2 === 0){
                         shape.attr({
                             r: 4,
                             lineWidth: 1,
+                        })
+                    }else {
+                        shape.attr({
+                            r: 12,
                         })
                     }
                 })
@@ -99,7 +113,22 @@ export default {
             }
         }
     },
-    point(group, position){
+    point(group, position, pdec){
+        //name和describe都作为寻找图形的标识
+        group.addShape('circle',{
+            attrs: {
+                x: position[0],
+                y: position[1],
+                r: 12,
+                fill: '#ffffff',
+                fillOpacity:0.5,
+                cursor:'crosshair',
+                name:`anchorPoint-wrap-${pdec}`,
+                describe:'point-wrap',
+            },
+            name: 'anchorPoint-wrap',
+            visible: true
+        }).set('className', `anchorPoint-wrap-${pdec}`);
         group.addShape('circle', {
             attrs: {
                 x: position[0],
@@ -109,10 +138,12 @@ export default {
                 stroke: '#56acfc',
                 fillOpacity:1,
                 lineWidth:0,
-                name:"point"
+                cursor:'crosshair',
+                name:`anchorPoint-${pdec}`,
+                describe:'point'
             },
-            name: 'point',
+            name: 'anchorPoint',
             visible: true
-        });
+        }).set('className', `anchorPoint-${pdec}`);
     }
 }
