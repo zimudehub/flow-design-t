@@ -1,4 +1,4 @@
 export function only() {
-    return new Date().getTime().toString()
+    return `TCDFeditor_${new Date().getTime().toString()}`
 }
 

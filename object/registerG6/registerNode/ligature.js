@@ -16,7 +16,6 @@ export default {
                     ['L', endPoint.x, endPoint.y],
                 ],
             },
-            // must be assigned in G6 3.3 and later versions. it can be any value you want
             name: 'path-shape',
         });
         return shape;

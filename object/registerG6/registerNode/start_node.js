@@ -89,10 +89,15 @@ export default {
                         shape.attr({
                             r: 4,
                             lineWidth: 1,
+                            fill: '#ffffff',
+                            stroke: '#56acfc',
+                            fillOpacity:1,
                         })
                     }else {
                         shape.attr({
                             r: 12,
+                            fill: '#ffffff',
+                            fillOpacity:0.5,
                         })
                     }
                 })

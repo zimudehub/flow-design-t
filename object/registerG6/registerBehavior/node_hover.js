@@ -5,8 +5,23 @@ const node_hover = {
             'node:mouseenter': 'nodeMouseenter',
             'node:mouseleave': 'nodeMouseleave',
             'node:mousemove': 'nodeMousemove',
-            'node:mousedown': 'nodeMousedown'
+            'node:mousedown': 'nodeMousedown',
+            'node:click': 'onclick',
+            'edge:click': 'onclick'
         };
+    },
+    onclick(e) {
+        const { item } = e;
+        const graph = this.graph;
+        const nodeType = item.getType();
+        if(nodeType === 'node'){
+            graph.$FlowDT.selectItem = item;
+        }else if(nodeType === 'edge'){
+            graph.$FlowDT.selectItem = item;
+            item.setState('select', false);
+            item.setState('select', true);
+        }
+        //将当前点击的item赋值给graph.$FlowDT.selectItem
     },
     nodeMousedown(e) {
         //获取起始点
@@ -70,7 +85,9 @@ const node_hover = {
         }).forEach((shape, i)=>{
             shape.attr('fill','#ffffff');
         });
-        graph.setItemState(item, 'node_hover', false);
+        if (item !== graph.$FlowDT.selectItem){
+            graph.setItemState(item, 'node_hover', false);
+        }
     },
     getStartPoint(className, x, y, graph) {
         switch (className) {

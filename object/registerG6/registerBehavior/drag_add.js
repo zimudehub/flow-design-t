@@ -1,5 +1,6 @@
-import { G6global } from '../../common/G6global'
-import { only } from '../../utils'
+import {G6global} from '../../common/G6global'
+import {only} from '../../utils'
+
 const drg_add = {
     shape: null,
     getEvents() {
@@ -72,11 +73,12 @@ const drg_add = {
         const size = G6global.size;
         const x = e.x;
         const y = e.y;
-        graph.add('node',{
+        //创建新节点时,新节点为选中节点
+        graph.$FlowDT.selectItem = graph.add('node', {
             id: only(),
             x,
             y,
-            type: 'start_node' ,
+            type: 'start_node',
             size
         });
         graph.setMode('default');

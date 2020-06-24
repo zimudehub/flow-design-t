@@ -32,6 +32,10 @@
         },
         components:{CanvasPanel, LeftPanel, RightPanel},
         props:{
+            multitermLine:{
+                type: Boolean,
+                default: false
+            },
             leftWidth:{
                 type: String,
                 default: "150px"
@@ -44,6 +48,7 @@
         data(){
             return{
                 dragType:'',
+                selectItem: '',//被选中的节点
                 data:{
                     id:'',
                     name:'',
@@ -76,6 +81,27 @@
                 }
             }
         },
+        watch:{
+            selectItem:{
+                handler(newValue, oldValue){
+                    //监听selectItem,切换选中的节点样式
+                    this.$nextTick(()=>{
+                        if (oldValue !== ''){
+                            console.log(newValue.getModel().id,'old',oldValue.getModel().id)
+                            const newType = newValue.getType();
+                            const oldType = oldValue.getType();
+                            newType === 'node'?
+                                this.$graph.setItemState(newValue, 'node_hover', true)
+                                :this.$graph.setItemState(newValue, 'select', true);
+                            oldType === 'node'?
+                                this.$graph.setItemState(oldValue, 'node_hover', false)
+                                :this.$graph.setItemState(oldValue, 'select', false);
+                        }
+                    })
+
+                },
+            }
+        }
     }
 </script>
 
