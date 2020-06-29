@@ -38,6 +38,13 @@
                 width: width,
                 height: height,
                 defaultEdge: {
+                    type:'polyline',
+                    labelCfg:{
+                        refY:14,
+                        style:{
+                            fontSize:18,
+                        },
+                    },
                     style: {
                         endArrow: {
                             path: 'M 0,0 L 6,3 L 6,-3 Z',
@@ -45,6 +52,7 @@
                             stroke: '#adb9c6',
                             opacity: 0.8,
                         },
+                        curvePosition:0.5,
                         stroke: '#adb9c6',
                         lineWidth: 2,
                         radius: 5,

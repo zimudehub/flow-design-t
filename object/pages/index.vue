@@ -13,7 +13,7 @@
                 />
             </content>
             <aside class="panel-right" :style="`min-width:${rightWidth}`">
-
+                <RightPanel/>
             </aside>
         </content>
     </div>
@@ -34,7 +34,7 @@
         props:{
             multitermLine:{
                 type: Boolean,
-                default: false
+                default: true
             },
             leftWidth:{
                 type: String,
@@ -87,7 +87,7 @@
                     //监听selectItem,切换选中的节点样式
                     this.$nextTick(()=>{
                         if (oldValue !== ''){
-                            console.log(newValue.getModel().id,'old',oldValue.getModel().id)
+                            // console.log(newValue.getModel().id,'old',oldValue.getModel().id)
                             const newType = newValue.getType();
                             const oldType = oldValue.getType();
                             newType === 'node'?

@@ -1,5 +1,5 @@
 /**
- * 定义画线用的虚线
+ * 定义画线用的虚线(这里虚线的类型是'node'不是'edge')
  * **/
 
 export default {
@@ -8,7 +8,8 @@ export default {
             attrs: {
                 stroke: '#1c92ff',
                 path: cfg.path,
-                lineDash: [4, 4]
+                lineDash: [4, 4],
+                name: 'line-shape',
             },
             name: 'line-shape',
         });

@@ -43,12 +43,12 @@ const cross = {
                 ['L', x, y],
             ]
         });
-        //连线模式下,所有节点锚点亮起
-        this.lighten(true, graph)
-
     },
     mouseup(e) {
         const { graph } = this;
+        //重新激活选中节点的node_hover样式,消除掉被点击画线的锚点中心点是蓝色问题
+        graph.setItemState(graph.$FlowDT.sourceItem, 'node_hover', false);
+        graph.setItemState(graph.$FlowDT.sourceItem, 'node_hover', true);
         //松手时灭活hover节点样式
         if(graph.$FlowDT.sourceItem.getModel().id !== graph.$FlowDT.selectItem.getModel().id){
             //如果起始点不是被选中的节点,消除node_hover状态样式
@@ -61,8 +61,8 @@ const cross = {
         this.lighten(false, graph);
         const shape = e.target;
         const className = shape.get('className')||'';
-        const targetAnchor = this.getTargetAnchor(className);
-        if (this.targetItem){
+        const targetAnchor = this.getTargetAnchor(className, e.x, e.y, e.item);
+        if (this.targetItem&&this.targetItem._cfg!==null&&[0,1,2,3].includes(targetAnchor)){
             if(!graph.$FlowDT.multitermLine){
                 //是否两个节点可以连多条线
                 if(!graph.save().edges.some((item)=>{
@@ -77,7 +77,7 @@ const cross = {
                         target: this.targetItem.getModel().id,
                         sourceAnchor: graph.$FlowDT.sourceAnchor,
                         targetAnchor,
-                        type:'polyline'
+                        type:'cubic-vertical'
                     });
                 }
             }else {
@@ -87,74 +87,36 @@ const cross = {
                     target: this.targetItem.getModel().id,
                     sourceAnchor: graph.$FlowDT.sourceAnchor,
                     targetAnchor,
-                    type:'polyline'
+                    label:'next'
                 });
             }
         }
         graph.setMode('default')
     },
     lighten(SW, graph) {
-        //点亮连接锚点函数
-        if (SW){
-            graph.get("group").findAll((item)=>{
-                return item.attr('describe') === 'point'
-            }).forEach((item)=>{
-                item.attr({
-                    r: 4,
-                    lineWidth: 1,
-                })
-            });
-            graph.get("group").findAll((item)=>{
-                return item.attr('describe') === 'point-wrap'
-            }).forEach((item)=>{
-                item.attr({
-                    r: 12,
-                    fill: '#94d5fd'
-                })
-            })
-        }else {
-            //这设计的有问题,锚点的样式应该开一个state管理
-            //这为了方便选直接修改了锚点的样式
-            //因为G6内置的setItemState如果两次传参相同的话第二次不会生效(这里向g6官方提了issues)
-            graph.setItemState(graph.$FlowDT.selectItem, 'node_hover', false);
-            graph.get("group").findAll((item)=>{
-                return item.attr('describe') === 'point'
-            }).forEach((item)=>{
-                item.attr({
-                    r: 0,
-                    lineWidth: 0,
-                    fill: '#ffffff'
-                })
-            });
-            graph.get("group").findAll((item)=>{
-                return item.attr('describe') === 'point-wrap'
-            }).forEach((item)=>{
-                item.attr({
-                    r: 0,
-                    fill: '#ffffff'
-                })
-            });
-            graph.setItemState(graph.$FlowDT.selectItem, 'node_hover', true);
-        }
+        //点亮连接锚点函数(只点亮非选中节点的锚点,因为选中节点的锚点本身就是点亮的)
+        graph.find('node', node => {
+            if (node !== graph.$FlowDT.selectItem){
+                graph.setItemState(node, 'lighten_point', SW)
+            }
+        });
+
     },
-    getTargetAnchor(className) {
-        switch (className) {
-            case 'anchorPoint-wrap-right':
-                return 1;
-            case  'anchorPoint-wrap-left':
-                return 3;
-            case  'anchorPoint-wrap-bottom':
-                return 0;
-            case  'anchorPoint-wrap-top':
-                return 2;
-            case 'anchorPoint-right':
-                return 1;
-            case  'anchorPoint-left':
-                return 3;
-            case  'anchorPoint-bottom':
-                return 0;
-            case  'anchorPoint-top':
-                return 2;
+    getTargetAnchor(className, x, y, item) {
+        const pointArr = [
+            'anchorPoint-wrap-right',
+            'anchorPoint-wrap-left',
+            'anchorPoint-wrap-bottom',
+            'anchorPoint-wrap-top',
+            'anchorPoint-left',
+            'anchorPoint-top',
+            'anchorPoint-bottom',
+            'anchorPoint-right',
+        ];
+        if(pointArr.includes(className)){
+            //事件响应在4个点上才触发
+            const startPoint = item.getLinkPoint({x,y});
+            return startPoint.anchorIndex
         }
     },
 };

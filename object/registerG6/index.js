@@ -1,6 +1,7 @@
 import {
     start_node,
-    imaginary_line
+    imaginary_line,
+    normal_node
 } from './registerNode'
 import {
     drg_add,
@@ -12,6 +13,7 @@ import G6 from "@antv/g6/lib/index";
 /*定义自定义节点*/
 G6.registerNode("start_node", start_node, 'rect');
 G6.registerNode("imaginary_line", imaginary_line);
+G6.registerNode("normal_node", normal_node, 'rect');
 
 /*定义自定义交互行为*/
 G6.registerBehavior("drg_add", drg_add);

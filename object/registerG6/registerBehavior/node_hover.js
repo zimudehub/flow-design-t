@@ -29,7 +29,7 @@ const node_hover = {
         const shape = e.target;
         const className = shape.get('className')||'';
         const { graph } = this;
-        const startPoint = this.getStartPoint(className, item.getModel().x, item.getModel().y, graph);
+        const startPoint = this.getStartPoint(className, e.x, e.y, graph, item);
         if (startPoint){
             //这里在graph.$FlowDT下挂载一些数据交给cross交互行为做连线操作
             graph.$FlowDT.startPoint = startPoint;
@@ -47,6 +47,7 @@ const node_hover = {
                 type: 'imaginary_line'
             });
             //切换到cross模式
+            this.lighten(true, graph, item);
             graph.setMode('cross')
         }
     },
@@ -89,33 +90,30 @@ const node_hover = {
             graph.setItemState(item, 'node_hover', false);
         }
     },
-    getStartPoint(className, x, y, graph) {
-        switch (className) {
-            case 'anchorPoint-wrap-right':
-                //保存起始连接点所索引sourceAnchor
-                graph.$FlowDT.sourceAnchor = 1;
-                return [40+x, 0+y];
-            case  'anchorPoint-wrap-left':
-                graph.$FlowDT.sourceAnchor = 3;
-                return [-40+x, 0+y];
-            case  'anchorPoint-wrap-bottom':
-                graph.$FlowDT.sourceAnchor = 0;
-                return [0+x, -40+y];
-            case  'anchorPoint-wrap-top':
-                graph.$FlowDT.sourceAnchor = 2;
-                return [0+x, 40+y];
-            case 'anchorPoint-right':
-                graph.$FlowDT.sourceAnchor = 1;
-                return [40+x, 0+y];
-            case  'anchorPoint-left':
-                graph.$FlowDT.sourceAnchor = 3;
-                return [-40+x, 0+y];
-            case  'anchorPoint-bottom':
-                graph.$FlowDT.sourceAnchor = 0;
-                return [0+x, -40+y];
-            case  'anchorPoint-top':
-                graph.$FlowDT.sourceAnchor = 2;
-                return [0+x, 40+y];
+    lighten(SW, graph, item) {
+        //点亮连接锚点函数(只点亮非选中节点的锚点和不在鼠标下的节点,因为二者节点的锚点本身就是点亮的)
+        graph.find('node', node => {
+            if (node !== graph.$FlowDT.selectItem&&node!==item){
+                graph.setItemState(node, 'lighten_point', SW)
+            }
+        });
+    },
+    getStartPoint(className, x, y, graph, item) {
+        const pointArr = [
+            'anchorPoint-wrap-right',
+            'anchorPoint-wrap-left',
+            'anchorPoint-wrap-bottom',
+            'anchorPoint-wrap-top',
+            'anchorPoint-left',
+            'anchorPoint-top',
+            'anchorPoint-bottom',
+            'anchorPoint-right',
+        ];
+        if(pointArr.includes(className)){
+            //事件响应在4个点上才触发
+            const startPoint = item.getLinkPoint({x,y});
+            graph.$FlowDT.sourceAnchor = startPoint.anchorIndex;
+            return [startPoint.x, startPoint.y]
         }
     },
     changeColor(className, color, shape, group) {
