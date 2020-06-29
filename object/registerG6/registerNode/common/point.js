@@ -7,7 +7,7 @@ export default function point(group, position, pdec, options){
             ...options.default.point_wrap,
             cursor:'crosshair',
             name:`anchorPoint-wrap-${pdec}`,
-            describe:'point-wrap',
+            describe:'point_wrap',
         },
         name: 'anchorPoint-wrap',
         visible: true

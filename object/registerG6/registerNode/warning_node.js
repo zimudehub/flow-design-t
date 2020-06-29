@@ -1,3 +1,6 @@
+/**
+ * 普通的节点
+ * **/
 import point from './common/point'
 import setState from "./common/setState";
 export default {
@@ -5,8 +8,7 @@ export default {
         //定义normal_node节点的状态样式
         default: {
             //默认状态
-            fill:'#fff3ea',
-            stroke: '#ffc26d',
+            fill:'#fff7d0',
             'point':{
                 fill: '#ffffff',
                 stroke: '#56acfc',
@@ -63,35 +65,52 @@ export default {
         ];
     },
     draw(cfg, group) {
-        const keyShape = group.addShape('circle', {
+        const keyShape = group.addShape('rect', {
             attrs: {
-                x: 0,
-                y: 0,
-                r: 40,
+                x: -50,
+                y: -30,
+                width: 100,
+                height: 60,
+                radius:[5],
                 fill: this.options.default.fill,
-                stroke: this.options.default.stroke,
                 fillOpacity:0.6,
-                lineWidth:2,
                 cursor:'pointer',
+                name:"keyShape",
                 describe:'keyShape',
             },
             name: 'keyShape',
             draggable: true
         });
-        point(group,[0,40], 'top', this.options);
-        point(group,[0,-40], 'bottom', this.options);
-        point(group,[-40,0], 'left', this.options);
-        point(group,[40,0], 'right', this.options);
+        group.addShape('rect', {
+            attrs: {
+                x: -50,
+                y: -30,
+                width: 20,
+                height: 60,
+                radius:[5,0,0,5],
+                fill: '#e7c000',
+                fillOpacity:0.6,
+                cursor:'pointer',
+                name:"keyShape",
+                describe:'border_left',
+            },
+            name: 'border_left',
+            draggable: true
+        });
+        point(group,[0,30], 'top', this.options);
+        point(group,[0,-30], 'bottom', this.options);
+        point(group,[-50,0], 'left', this.options);
+        point(group,[50,0], 'right', this.options);
         group.addShape('text', {
             attrs: {
-                text: cfg.text||"Start",
-                x: 0,
+                x: 10, // 居中
                 y: 0,
-                fontSize: 14,
+                text: cfg.text||"Warning",
                 textAlign: 'center',
                 textBaseline: 'middle',
-                fill: '#000000',
-                fontWeight:400,
+                fill: '#b29400',
+                fontSize: 14,
+                fontWeight: 400,
                 describe:'text',
             },
             name: 'text',

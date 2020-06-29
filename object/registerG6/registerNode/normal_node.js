@@ -8,8 +8,7 @@ export default {
         //定义normal_node节点的状态样式
         default: {
             //默认状态
-            fill:'#ffffff',
-            stroke: '#d6dce3',
+            fill:'#f3f5f7',
             'point':{
                 fill: '#ffffff',
                 stroke: '#56acfc',
@@ -74,14 +73,28 @@ export default {
                 height: 60,
                 radius:[5],
                 fill: this.options.default.fill,
-                stroke: this.options.default.stroke,
                 fillOpacity:0.6,
-                lineWidth:2,
                 cursor:'pointer',
                 name:"keyShape",
                 describe:'keyShape',
             },
             name: 'keyShape',
+            draggable: true
+        });
+        group.addShape('rect', {
+            attrs: {
+                x: -50,
+                y: -30,
+                width: 20,
+                height: 60,
+                radius:[5,0,0,5],
+                fill: '#42b983',
+                fillOpacity:0.6,
+                cursor:'pointer',
+                name:"keyShape",
+                describe:'border_left',
+            },
+            name: 'border_left',
             draggable: true
         });
         point(group,[0,30], 'top', this.options);
@@ -90,9 +103,9 @@ export default {
         point(group,[50,0], 'right', this.options);
         group.addShape('text', {
             attrs: {
-                x: 0, // 居中
+                x: 10, // 居中
                 y: 0,
-                text: '开始',
+                text: cfg.text||"Normal",
                 textAlign: 'center',
                 textBaseline: 'middle',
                 fill: '#000000',

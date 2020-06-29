@@ -1,3 +1,6 @@
+/**
+ * 普通的节点
+ * **/
 import point from './common/point'
 import setState from "./common/setState";
 export default {
@@ -5,8 +8,8 @@ export default {
         //定义normal_node节点的状态样式
         default: {
             //默认状态
-            fill:'#fff3ea',
-            stroke: '#ffc26d',
+            fill:'#f9f1ff',
+            stroke: '#b37feb',
             'point':{
                 fill: '#ffffff',
                 stroke: '#56acfc',
@@ -63,35 +66,38 @@ export default {
         ];
     },
     draw(cfg, group) {
-        const keyShape = group.addShape('circle', {
+        const keyShape = group.addShape('rect', {
             attrs: {
-                x: 0,
-                y: 0,
-                r: 40,
+                x: -43,
+                y: -30,
+                width: 86,
+                height: 60,
+                radius:[30],
                 fill: this.options.default.fill,
                 stroke: this.options.default.stroke,
                 fillOpacity:0.6,
                 lineWidth:2,
                 cursor:'pointer',
+                name:"keyShape",
                 describe:'keyShape',
             },
             name: 'keyShape',
             draggable: true
         });
-        point(group,[0,40], 'top', this.options);
-        point(group,[0,-40], 'bottom', this.options);
-        point(group,[-40,0], 'left', this.options);
-        point(group,[40,0], 'right', this.options);
+        point(group,[0,30], 'top', this.options);
+        point(group,[0,-30], 'bottom', this.options);
+        point(group,[-43,0], 'left', this.options);
+        point(group,[43,0], 'right', this.options);
         group.addShape('text', {
             attrs: {
-                text: cfg.text||"Start",
-                x: 0,
+                x: 0, // 居中
                 y: 0,
-                fontSize: 14,
+                text: cfg.text||"End",
                 textAlign: 'center',
                 textBaseline: 'middle',
                 fill: '#000000',
-                fontWeight:400,
+                fontSize: 14,
+                fontWeight: 400,
                 describe:'text',
             },
             name: 'text',

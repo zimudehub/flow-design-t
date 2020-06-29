@@ -7,9 +7,19 @@
         <li class="t_normal"
             @mousedown="mousedown('normal_node')"
             @mouseup="mouseup"
-        ><span class="iconfont">&#xe614;</span></li>
-        <li class="t_exigency">Exigency</li>
-        <li class="t_end">End</li>
+        >Normal</li>
+        <li class="t_exigency"
+            @mousedown="mousedown('exigency_node')"
+            @mouseup="mouseup"
+        >Exigency</li>
+        <li class="t_warning"
+            @mousedown="mousedown('warning_node')"
+            @mouseup="mouseup"
+        >Warning</li>
+        <li class="t_end"
+            @mousedown="mousedown('end_node')"
+            @mouseup="mouseup"
+        >End</li>
     </ul>
 </template>
 
