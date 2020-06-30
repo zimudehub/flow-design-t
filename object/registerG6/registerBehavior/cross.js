@@ -77,8 +77,10 @@ const cross = {
                         target: this.targetItem.getModel().id,
                         sourceAnchor: graph.$FlowDT.sourceAnchor,
                         targetAnchor,
-                        type:'cubic-vertical'
+                        label:'next',
+                        data:{}
                     });
+                    graph.$FlowDT.selectItem.refresh()
                 }
             }else {
                 graph.$FlowDT.selectItem = graph.addItem('edge',{
@@ -87,8 +89,10 @@ const cross = {
                     target: this.targetItem.getModel().id,
                     sourceAnchor: graph.$FlowDT.sourceAnchor,
                     targetAnchor,
-                    label:'next'
+                    label:'next',
+                    data:{}
                 });
+                graph.$FlowDT.selectItem.refresh()
             }
         }
         graph.setMode('default')

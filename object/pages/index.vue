@@ -1,7 +1,10 @@
 <template>
     <div class="flow-design-wrap">
         <header class="button-control">
-
+            <Toolbar
+                :selectItem="selectItem"
+            >
+            </Toolbar>
         </header>
         <content class="panel">
             <aside class="panel-left" :style="`min-width:${leftWidth}`">
@@ -13,7 +16,14 @@
                 />
             </content>
             <aside class="panel-right" :style="`min-width:${rightWidth}`">
-                <RightPanel/>
+                <RightPanel>
+                    <template v-slot:edge>
+                        <slot name="edge"></slot>
+                    </template>
+                    <template v-slot:node>
+                        <slot name="node"></slot>
+                    </template>
+                </RightPanel>
             </aside>
         </content>
     </div>
@@ -23,6 +33,7 @@
     import CanvasPanel from "./canvasPanel"
     import LeftPanel from "./leftPanel"
     import RightPanel from "./rightPanel"
+    import Toolbar from "./toolbar"
     export default {
         name: "FlowDesignTCD",
         provide(){
@@ -30,11 +41,11 @@
                 FlowDT: this
             }
         },
-        components:{CanvasPanel, LeftPanel, RightPanel},
+        components:{CanvasPanel, LeftPanel, RightPanel, Toolbar},
         props:{
             multitermLine:{
                 type: Boolean,
-                default: true
+                default: false
             },
             leftWidth:{
                 type: String,
@@ -85,20 +96,20 @@
             selectItem:{
                 handler(newValue, oldValue){
                     //监听selectItem,切换选中的节点样式
-                    this.$nextTick(()=>{
-                        if (oldValue !== ''){
-                            // console.log(newValue.getModel().id,'old',oldValue.getModel().id)
-                            const newType = newValue.getType();
-                            const oldType = oldValue.getType();
-                            newType === 'node'?
-                                this.$graph.setItemState(newValue, 'node_hover', true)
-                                :this.$graph.setItemState(newValue, 'select', true);
-                            oldType === 'node'?
-                                this.$graph.setItemState(oldValue, 'node_hover', false)
-                                :this.$graph.setItemState(oldValue, 'select', false);
-                        }
-                    })
-
+                    if (newValue !== ''){
+                        this.$nextTick(()=>{
+                            if (oldValue !== ''){
+                                const newType = newValue.getType();
+                                const oldType = oldValue.getType();
+                                newType === 'node'?
+                                    this.$graph.setItemState(newValue, 'node_hover', true)
+                                    :this.$graph.setItemState(newValue, 'select', true);
+                                oldType === 'node'?
+                                    this.$graph.setItemState(oldValue, 'node_hover', false)
+                                    :this.$graph.setItemState(oldValue, 'select', false);
+                            }
+                        })
+                    }
                 },
             }
         }

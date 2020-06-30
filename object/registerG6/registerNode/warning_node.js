@@ -85,7 +85,7 @@ export default {
             attrs: {
                 x: -50,
                 y: -30,
-                width: 20,
+                width: 10,
                 height: 60,
                 radius:[5,0,0,5],
                 fill: '#e7c000',
@@ -103,7 +103,7 @@ export default {
         point(group,[50,0], 'right', this.options);
         group.addShape('text', {
             attrs: {
-                x: 10, // 居中
+                x: 5, // 居中
                 y: 0,
                 text: cfg.text||"Warning",
                 textAlign: 'center',

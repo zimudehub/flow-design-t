@@ -21,15 +21,14 @@
                 modes: {
                     default: [
                         'drag-canvas',
-                        'zoom-canvas',
                         'node_hover',
                         {
                             type: 'drag-node',
                             enableDelegate: true,
                         },
                     ],
-                    cross:['cross'],//画线模式
-                    drg_add:['drg_add']//拖拽添加节点模式
+                    cross: ['cross'],//画线模式
+                    drg_add: ['drg_add']//拖拽添加节点模式
                 },
                 fitView: true,
                 fitViewPadding: [20, 20, 20, 20],
@@ -42,7 +41,8 @@
                     labelCfg:{
                         refY:14,
                         style:{
-                            fontSize:18,
+                            fontSize: 12,
+                            fontWeight: 500,
                         },
                     },
                     style: {
@@ -52,7 +52,6 @@
                             stroke: '#adb9c6',
                             opacity: 0.8,
                         },
-                        curvePosition:0.5,
                         stroke: '#adb9c6',
                         lineWidth: 2,
                         radius: 5,
@@ -86,18 +85,18 @@
             });
             addEventListener('mouseup',()=>{
                 this.FlowDT.$graph.setMode('default')
+            });
+            this.$once("hock:destroyed",()=>{
+                //使用hock撤销监听
+                removeEventListener('mouseup',()=>{
+                    this.FlowDT.$graph.setMode('default')
+                });
+                removeEventListener('resize',()=>{
+                    const width =  document.getElementById("panel-canvas").getBoundingClientRect().width;
+                    const height =  document.getElementById("panel-canvas").getBoundingClientRect().height;
+                    this.FlowDT.$graph.changeSize(width, height);
+                });
             })
-        },
-        destroyed(){
-            //撤销监听函数
-            removeEventListener('mouseup',()=>{
-                this.FlowDT.$graph.setMode('default')
-            });
-            removeEventListener('resize',()=>{
-                const width =  document.getElementById("panel-canvas").getBoundingClientRect().width;
-                const height =  document.getElementById("panel-canvas").getBoundingClientRect().height;
-                this.FlowDT.$graph.changeSize(width, height);
-            });
         },
     }
 </script>
