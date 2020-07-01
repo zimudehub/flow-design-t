@@ -105,7 +105,7 @@ export default {
             attrs: {
                 x: 5, // 居中
                 y: 0,
-                text: cfg.text||"Normal",
+                text: cfg.label||"Normal",
                 textAlign: 'center',
                 textBaseline: 'middle',
                 fill: '#000000',

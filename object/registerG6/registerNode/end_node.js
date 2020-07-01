@@ -92,7 +92,7 @@ export default {
             attrs: {
                 x: 0, // 居中
                 y: 0,
-                text: cfg.text||"End",
+                text: cfg.label||"End",
                 textAlign: 'center',
                 textBaseline: 'middle',
                 fill: '#000000',

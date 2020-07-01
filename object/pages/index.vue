@@ -2,7 +2,7 @@
     <div class="flow-design-wrap">
         <header class="button-control">
             <Toolbar
-                :selectItem="selectItem"
+                :selectItem = "selectItem"
             >
             </Toolbar>
         </header>
@@ -16,7 +16,10 @@
                 />
             </content>
             <aside class="panel-right" :style="`min-width:${rightWidth}`">
-                <RightPanel>
+                <RightPanel
+                    :nodeModel = 'nodeModel'
+                    :edgeModel = 'edgeModel'
+                >
                     <template v-slot:edge>
                         <slot name="edge"></slot>
                     </template>
@@ -43,48 +46,48 @@
         },
         components:{CanvasPanel, LeftPanel, RightPanel, Toolbar},
         props:{
-            multitermLine:{
+            multitermLine: {
                 type: Boolean,
                 default: false
             },
-            leftWidth:{
+            leftWidth: {
                 type: String,
                 default: "150px"
             },
-            rightWidth:{
+            rightWidth: {
                 type: String,
-                default: "250px"
+                default: "350px"
+            },
+            nodeModel: {//被选中节点数据
+                type: Object,
+                default: ()=>({})
+            },
+            edgeModel: {//被选中边数据
+                type: Object,
+                default: ()=>({})
             }
+        },
+        created(){
+            //将添加的新节点的数据格式保存
+            this.node = JSON.parse(JSON.stringify(this.nodeModel));
+            this.edge = JSON.parse(JSON.stringify(this.edgeModel))
         },
         data(){
             return{
                 dragType:'',
                 selectItem: '',//被选中的节点
+                node:{},
+                edge:{},
                 data:{
                     id:'',
                     name:'',
                     v:'',
                     cl:'',
                     nodes: [
-                        // {
-                        //     id: 'node1',
-                        //     x: 100,
-                        //     y: 200,
-                        //     size:100,
 
-                        // },
-                        // { id: 'node3', x: 250, y: 220, color: 'red', type: 'start_node' }, // 添加颜色
-                        // {
-                        //     id: 'node2',
-                        //     x: 200,
-                        //     y: 200,
-                        // },
                     ],
                     edges: [
-                        // {
-                        //     source: 'node1',
-                        //     target: 'node2',
-                        // },
+
                     ],
                     someDataElse:{
 
@@ -95,8 +98,45 @@
         watch:{
             selectItem:{
                 handler(newValue, oldValue){
-                    //监听selectItem,切换选中的节点样式
                     if (newValue !== ''){
+                        this.$nextTick(()=>{
+                            //当selectItem变化时将selectItem的Model传给父组件
+                            if(oldValue !== ''){
+                                const oldType = oldValue.getType();
+                                const newType = newValue.getType();
+                                const Model = newValue.getModel();
+                                if (oldType === 'node'){
+                                    //先将nodeModel或edgeModel保存给之前selectItem
+                                    this.$graph.updateItem(oldValue, {
+                                        label: this.nodeModel.label,
+                                        data:{
+                                            ...this.nodeModel
+                                        }
+                                    });
+                                }
+                                if(oldType === 'edge'){
+                                    this.$graph.updateItem(oldValue, {
+                                        label: this.edgeModel.label,
+                                        data:{
+                                            ...this.edgeModel
+                                        }
+                                    });
+                                }
+                                if (newType === 'node'){
+                                    //将当前selectItem的Model的data传给父组件
+                                    this.$emit('update:nodeModel', {
+                                        ...Model.data,
+                                        label:Model.label
+                                    });
+                                }else if(newType === 'edge'){
+                                    this.$emit('update:edgeModel', {
+                                        ...Model.data,
+                                        label:Model.label
+                                    });
+                                }
+                            }
+                        });
+                        //监听selectItem,切换选中的节点样式
                         this.$nextTick(()=>{
                             if (oldValue !== ''){
                                 const newType = newValue.getType();

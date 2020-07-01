@@ -1,8 +1,8 @@
 <template>
     <div class="panel-right-wrap">
         <p class="node_id">{{ a === ''?'当前没有选中节点' : a }}</p>
-        <slot name="node"></slot>
-        <slot name="edge"></slot>
+        <slot name="node" v-if="showModel === 'node'"></slot>
+        <slot name="edge" v-else-if="showModel === 'edge'"></slot>
     </div>
 </template>
 
@@ -10,14 +10,21 @@
     export default {
         name: "RightPanel",
         inject:['FlowDT'],
+        props:{
+
+        },
         computed:{
             a(){
                 let a = '';
-                if (this.FlowDT.selectItem !== ''){
+                if (this.FlowDT.selectItem){
                     a = this.FlowDT.selectItem.getModel().id
-                    // console.log(this.FlowDT.selectItem.getModel())
                 }
                 return a
+            },
+            showModel(){
+                if(this.FlowDT.selectItem){
+                    return this.FlowDT.selectItem.getType()
+                }
             }
         },
         data(){

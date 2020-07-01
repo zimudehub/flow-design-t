@@ -78,11 +78,13 @@ const drg_add = {
             id: only(),
             x,
             y,
-            text:graph.$FlowDT.dragType.split('_')[0],
+            label:graph.$FlowDT.node.label,
             //拿到需要添加到图实例中的节点类型(在左侧操作区域拖拽开始的时候有传递)
             type: graph.$FlowDT.dragType,
             size,
-            data:{}
+            data:{
+                ...JSON.parse(JSON.stringify(graph.$FlowDT.node))
+            }
         });
         graph.setMode('default');
     },

@@ -105,7 +105,7 @@ export default {
             attrs: {
                 x: 5, // 居中
                 y: 0,
-                text: cfg.text||"Exigency",
+                text: cfg.label||"Exigency",
                 textAlign: 'center',
                 textBaseline: 'middle',
                 fill: '#8c4646',

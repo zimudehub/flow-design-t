@@ -78,7 +78,9 @@ const cross = {
                         sourceAnchor: graph.$FlowDT.sourceAnchor,
                         targetAnchor,
                         label:'next',
-                        data:{}
+                        data:{
+                            ...JSON.parse(JSON.stringify(graph.$FlowDT.edge))
+                        }
                     });
                     graph.$FlowDT.selectItem.refresh()
                 }
@@ -90,15 +92,19 @@ const cross = {
                     sourceAnchor: graph.$FlowDT.sourceAnchor,
                     targetAnchor,
                     label:'next',
-                    data:{}
+                    data:{
+                        ...JSON.parse(JSON.stringify(graph.$FlowDT.edge))
+                    }
                 });
+                //这需要重新更新一下边(否则会出现边渲染成白色消失只显示箭头的bug)
+                //目前该渲染bug没有找到本质原因(后期会对源码定位找原因)
                 graph.$FlowDT.selectItem.refresh()
             }
         }
         graph.setMode('default')
     },
     lighten(SW, graph) {
-        //点亮连接锚点函数(只点亮非选中节点的锚点,因为选中节点的锚点本身就是点亮的)
+        //点亮连接锚点函数(只点亮或熄灭非选中节点的锚点,因为选中节点的锚点本身就是点亮的)
         graph.find('node', node => {
             if (node !== graph.$FlowDT.selectItem){
                 graph.setItemState(node, 'lighten_point', SW)

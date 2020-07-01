@@ -45,7 +45,7 @@
         props:{
             selectItem:{
                 required: true
-            }
+            },
         },
         data(){
             return{
@@ -56,6 +56,7 @@
             actualSize(){
                 this.zoom = 1;
                 this.$nextTick(()=>{
+                    //用nextTick是因为this.FlowDT.$graph是在mounted周期中赋值的
                     this.FlowDT.$graph.zoomTo(this.zoom);
                 });
             },

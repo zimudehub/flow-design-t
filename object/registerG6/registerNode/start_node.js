@@ -84,7 +84,7 @@ export default {
         point(group,[40,0], 'right', this.options);
         group.addShape('text', {
             attrs: {
-                text: cfg.text||"Start",
+                text: cfg.label||"Start",
                 x: 0,
                 y: 0,
                 fontSize: 14,
