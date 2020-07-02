@@ -70,35 +70,37 @@ const cross = {
                     return item.source === graph.$FlowDT.sourceItem.getModel().id&&item.target === this.targetItem.getModel().id
                 })){
                     //如果没有添加该条画的边
-                    graph.$FlowDT.selectItem = graph.addItem('edge',{
+                    const line = graph.addItem('edge',{
                         id: only(),
                         //从通讯实例中拿到起始点和终止点id
                         source: graph.$FlowDT.sourceItem.getModel().id,
                         target: this.targetItem.getModel().id,
                         sourceAnchor: graph.$FlowDT.sourceAnchor,
                         targetAnchor,
-                        label:'next',
+                        label:graph.$FlowDT.edge.label,
                         data:{
                             ...JSON.parse(JSON.stringify(graph.$FlowDT.edge))
                         }
                     });
-                    graph.$FlowDT.selectItem.refresh()
+                    line.refresh();
+                    graph.$FlowDT.selectItem = line
                 }
             }else {
-                graph.$FlowDT.selectItem = graph.addItem('edge',{
+                const line = graph.addItem('edge',{
                     id: only(),
                     source: graph.$FlowDT.sourceItem.getModel().id,
                     target: this.targetItem.getModel().id,
                     sourceAnchor: graph.$FlowDT.sourceAnchor,
                     targetAnchor,
-                    label:'next',
+                    label:graph.$FlowDT.edge.label,
                     data:{
                         ...JSON.parse(JSON.stringify(graph.$FlowDT.edge))
                     }
                 });
                 //这需要重新更新一下边(否则会出现边渲染成白色消失只显示箭头的bug)
                 //目前该渲染bug没有找到本质原因(后期会对源码定位找原因)
-                graph.$FlowDT.selectItem.refresh()
+                line.refresh();
+                graph.$FlowDT.selectItem = line
             }
         }
         graph.setMode('default')

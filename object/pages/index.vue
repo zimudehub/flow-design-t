@@ -3,6 +3,8 @@
         <header class="button-control">
             <Toolbar
                 :selectItem = "selectItem"
+                :nodeModel="nodeModel"
+                :edgeModel="edgeModel"
             >
             </Toolbar>
         </header>
@@ -16,10 +18,7 @@
                 />
             </content>
             <aside class="panel-right" :style="`min-width:${rightWidth}`">
-                <RightPanel
-                    :nodeModel = 'nodeModel'
-                    :edgeModel = 'edgeModel'
-                >
+                <RightPanel>
                     <template v-slot:edge>
                         <slot name="edge"></slot>
                     </template>
@@ -78,6 +77,7 @@
                 selectItem: '',//被选中的节点
                 node:{},
                 edge:{},
+                changePath:[],//保存每次图变化时的数据副本的数组(提供一个路径类似于git的版本管理)
                 data:{
                     id:'',
                     name:'',
@@ -104,7 +104,7 @@
                             if(oldValue !== ''){
                                 const oldType = oldValue.getType();
                                 const newType = newValue.getType();
-                                const Model = newValue.getModel();
+                                const Model = JSON.parse(JSON.stringify(newValue.getModel()));
                                 if (oldType === 'node'){
                                     //先将nodeModel或edgeModel保存给之前selectItem
                                     this.$graph.updateItem(oldValue, {
@@ -126,12 +126,11 @@
                                     //将当前selectItem的Model的data传给父组件
                                     this.$emit('update:nodeModel', {
                                         ...Model.data,
-                                        label:Model.label
                                     });
-                                }else if(newType === 'edge'){
+                                }
+                                if(newType === 'edge'){
                                     this.$emit('update:edgeModel', {
                                         ...Model.data,
-                                        label:Model.label
                                     });
                                 }
                             }

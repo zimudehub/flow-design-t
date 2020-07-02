@@ -10,6 +10,11 @@ li,ul{
   padding: 0;
   list-style: none;
 }
+.minimap{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 
 .flow-design-wrap{
   width: 100%;
@@ -23,6 +28,9 @@ li,ul{
     background: #fafafa;
     box-sizing:border-box;
     padding: 8px;
+    .el-button{
+      margin: 0 8px;
+    }
   }
 
   .panel{
@@ -97,6 +105,7 @@ li,ul{
         width: 100%;
         height: 100%;
         overflow: hidden;
+        position: relative;
         canvas{
           cursor: pointer;
         }
@@ -112,6 +121,7 @@ li,ul{
         width: 100%;
 
         .node_id{
+          box-sizing:border-box;
           height: 40px;
           line-height: 40px;
           text-align: center;

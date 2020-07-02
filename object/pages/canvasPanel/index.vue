@@ -17,7 +17,13 @@
         mounted() {
             const width = document.getElementById("panel-canvas").getBoundingClientRect().width;
             const height = document.getElementById("panel-canvas").getBoundingClientRect().height;
+            const minimap = new this.G6.Minimap({
+                size: [200, 200],
+                className: 'minimap',
+                type:"default"
+            });
             this.FlowDT.$graph = new this.G6.Graph({
+                plugins: [minimap],
                 modes: {
                     default: [
                         'drag-canvas',
@@ -28,7 +34,8 @@
                         },
                     ],
                     cross: ['cross'],//画线模式
-                    drg_add: ['drg_add']//拖拽添加节点模式
+                    drg_add: ['drg_add'],//拖拽添加节点模式
+                    paste:['paste'],//粘贴模式
                 },
                 fitView: true,
                 fitViewPadding: [20, 20, 20, 20],
@@ -86,7 +93,7 @@
             addEventListener('mouseup',()=>{
                 this.FlowDT.$graph.setMode('default')
             });
-            this.$once("hock:destroyed",()=>{
+            this.$on("hock:destroyed",()=>{
                 //使用hock撤销监听
                 removeEventListener('mouseup',()=>{
                     this.FlowDT.$graph.setMode('default')

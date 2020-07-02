@@ -3,16 +3,12 @@ import {
     Button,
     Tooltip,
     Icon,
-    Form,
-    FormItem,
-    Input,
+    Divider
 } from 'element-ui';
 
 export default {
     Button,
     Tooltip,
     Icon,
-    Form,
-    FormItem,
-    Input,
+    Divider
 }
