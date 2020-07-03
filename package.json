@@ -1,18 +1,31 @@
 {
   "name": "flow-design-tcd",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.4",
+  "private": false,
+  "description": "基于G6的vue流程编辑器",
+  "main": "lib/flow-design-tcd.umd.min.js",
+  "author": "子沐",
+  "keyword": [
+    "vue",
+    "G6",
+    "OA系统",
+    "FormDesignTCD",
+    "流程编辑器",
+    "拖拽",
+    "工作流"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "lib": "vue-cli-service build --target lib --name flow-design-tcd --dest lib object/index.js"
   },
   "dependencies": {
     "@antv/g6": "^3.5.5",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
+    "flow-design-tcd": "^0.1.4",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuedraggable": "^2.23.2"
+    "vue-router": "^3.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

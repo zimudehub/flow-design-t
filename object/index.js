@@ -1,7 +1,6 @@
 import FlowDesignTCD from './pages'
 
 import G6 from './registerG6'
-import '../styles/icons/iconfont.css'
 import '../styles/flow-design-tcd.less'
 import 'element-ui/lib/theme-chalk/index.css';
 

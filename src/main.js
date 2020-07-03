@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import FlowDesignTCD from '../object'
+// import FlowDesignTCD from 'flow-design-tcd'
+// import 'flow-design-tcd/lib/flow-design-tcd.css'
 import {
   Form,
   FormItem,

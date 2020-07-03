@@ -3,8 +3,8 @@
         <header class="button-control">
             <Toolbar
                 :selectItem = "selectItem"
-                :nodeModel="nodeModel"
-                :edgeModel="edgeModel"
+                :nodeModel = "nodeModel"
+                :edgeModel = "edgeModel"
             >
             </Toolbar>
         </header>
@@ -15,6 +15,7 @@
             <content class="panel-canvas-wrap">
                 <CanvasPanel
                     :data="data"
+                    :minimap="minimap"
                 />
             </content>
             <aside class="panel-right" :style="`min-width:${rightWidth}`">
@@ -47,7 +48,15 @@
         props:{
             multitermLine: {
                 type: Boolean,
-                default: false
+                default: true
+            },
+            minimap:{
+                type: Boolean,
+                default: true
+            },
+            data:{
+                type: Object,
+                default: ()=>({})
             },
             leftWidth: {
                 type: String,
@@ -78,21 +87,6 @@
                 node:{},
                 edge:{},
                 changePath:[],//保存每次图变化时的数据副本的数组(提供一个路径类似于git的版本管理)
-                data:{
-                    id:'',
-                    name:'',
-                    v:'',
-                    cl:'',
-                    nodes: [
-
-                    ],
-                    edges: [
-
-                    ],
-                    someDataElse:{
-
-                    }
-                }
             }
         },
         watch:{

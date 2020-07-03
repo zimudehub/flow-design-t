@@ -12,18 +12,26 @@
             data: {
                 type: Object,
                 required: true
+            },
+            minimap:{
+                type: Boolean,
+                default: true
             }
         },
         mounted() {
+            const plugins = [];
+            if (this.minimap){
+                const minimap = new this.G6.Minimap({
+                    size: [200, 200],
+                    className: 'minimap',
+                    type:"default"
+                });
+                plugins.push(minimap)
+            }
             const width = document.getElementById("panel-canvas").getBoundingClientRect().width;
             const height = document.getElementById("panel-canvas").getBoundingClientRect().height;
-            const minimap = new this.G6.Minimap({
-                size: [200, 200],
-                className: 'minimap',
-                type:"default"
-            });
             this.FlowDT.$graph = new this.G6.Graph({
-                plugins: [minimap],
+                plugins,
                 modes: {
                     default: [
                         'drag-canvas',
