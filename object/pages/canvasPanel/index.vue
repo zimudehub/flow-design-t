@@ -101,7 +101,7 @@
             addEventListener('mouseup',()=>{
                 this.FlowDT.$graph.setMode('default')
             });
-            this.$on("hock:destroyed",()=>{
+            this.$on("hook:destroyed",()=>{
                 //使用hock撤销监听
                 removeEventListener('mouseup',()=>{
                     this.FlowDT.$graph.setMode('default')
