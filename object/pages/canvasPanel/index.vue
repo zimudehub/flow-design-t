@@ -92,25 +92,18 @@
             this.FlowDT.$graph.render();
             //下面调用避免画布出现重影
             this.FlowDT.$graph.get('canvas').set('localRefresh', false);
-            addEventListener('resize',()=>{
+            const resizeCanvas = () => {
                 //监听视口变化改变画布尺寸
                 const width =  document.getElementById("panel-canvas").getBoundingClientRect().width;
                 const height =  document.getElementById("panel-canvas").getBoundingClientRect().height;
                 this.FlowDT.$graph.changeSize(width, height);
-            });
-            addEventListener('mouseup',()=>{
-                this.FlowDT.$graph.setMode('default')
-            });
+            };
+            addEventListener('resize',resizeCanvas);
+            addEventListener('mouseup', this.FlowDT.$graph.setMode('default'));
             this.$on("hook:destroyed",()=>{
-                //使用hock撤销监听
-                removeEventListener('mouseup',()=>{
-                    this.FlowDT.$graph.setMode('default')
-                });
-                removeEventListener('resize',()=>{
-                    const width =  document.getElementById("panel-canvas").getBoundingClientRect().width;
-                    const height =  document.getElementById("panel-canvas").getBoundingClientRect().height;
-                    this.FlowDT.$graph.changeSize(width, height);
-                });
+                //使用hook撤销监听
+                removeEventListener('mouseup', this.FlowDT.$graph.setMode('default'));
+                removeEventListener('resize',resizeCanvas);
             })
         },
     }

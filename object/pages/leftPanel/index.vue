@@ -39,7 +39,7 @@
                 )
             },
             mousedown(type){
-                //保存拖拽节点的类型传递给drag_add交互行为
+                //保存拖拽节点的类型,drag_add交互行为会用到
                 this.FlowDT.dragType = type;
                 this.$nextTick(
                     ()=>{this.FlowDT.$graph.setMode('drg_add')}

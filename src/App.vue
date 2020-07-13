@@ -56,6 +56,7 @@
         },
       }
     },
+
     methods:{
       save(data){
         console.log(data)
